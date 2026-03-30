@@ -1,17 +1,35 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useRoute } from 'vue-router'
+import TheNavbar from './components/TheNavbar.vue'
+import SideBar from './components/SideBar.vue'
+
+const route = useRoute()
+</script>
 
 <template>
-  <RouterView />
+  <TheNavbar v-if="route.path !== '/login'" />
+
+  <SideBar v-if="route.path !== '/login'" />
+
+  <main :class="['main-content', { 'main-content--full': route.path === '/login' }]">
+    <RouterView />
+  </main>
 </template>
 
 <style scoped lang="scss">
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.main-content {
+  padding-top: 70px;
+  margin-left: 250px;
+  min-height: 100vh;
+  background-color: #fafafa;
+  padding-right: 30px;
+  padding-bottom: 30px;
+  padding-left: 15px;
 }
 
-body {
-  font-family: sans-serif;
+.main-content--full {
+  margin-left: 0;
+  padding-top: 0;
+  padding: 0;
 }
 </style>
