@@ -20,7 +20,7 @@ const router = createRouter({
       component: () => import('../pages/UserCardPage.vue'),
     },
     {
-      path: '/favorites',
+      path: '/users/favorites',
       component: () => import('../pages/FavoritesPage.vue'),
     },
   ],

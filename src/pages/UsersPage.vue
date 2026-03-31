@@ -113,7 +113,7 @@ onMounted(fetchUsers)
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
 .page-header {
   padding-bottom: 0px;
   margin-bottom: 25px;
