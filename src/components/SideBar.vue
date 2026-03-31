@@ -43,7 +43,7 @@ const isUsersSection = computed(() => route.path.startsWith('/users'))
 </template>
 <style lang="scss" scoped>
 .sidebar {
-  width: 250px;
+  width: 210px;
   height: calc(100vh - 55px);
   position: fixed;
   top: 55px;

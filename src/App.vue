@@ -18,12 +18,11 @@ const route = useRoute()
 
 <style scoped lang="scss">
 .main-content {
-  padding-top: 70px;
-  margin-left: 250px;
+  padding-top: 80px;
+  margin-left: 210px;
   min-height: 100vh;
   background-color: #fafafa;
   padding-right: 30px;
-  padding-bottom: 30px;
   padding-left: 15px;
 }
 
