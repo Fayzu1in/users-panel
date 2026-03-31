@@ -24,6 +24,7 @@ const route = useRoute()
   background-color: #fafafa;
   padding-right: 30px;
   padding-left: 15px;
+  padding-bottom: 50px;
 }
 
 .main-content--full {
