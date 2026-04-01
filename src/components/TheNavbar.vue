@@ -92,7 +92,6 @@ onUnmounted(() => {
           </template>
 
           <template v-else>
-            <div class="mobile-menu__section-title">Текущий пользователь:</div>
             <RouterLink
               :to="`/users/${userId}`"
               class="mobile-link"
