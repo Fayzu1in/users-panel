@@ -140,10 +140,15 @@ onUnmounted(() => {
 
         <div class="info-section">Посты</div>
         <div class="posts">
-          <div class="post" v-for="post in posts" :key="post.id">
-            <strong>{{ post.title }}</strong>
-            <p>{{ post.body }}</p>
-          </div>
+          <template v-if="posts.length > 0">
+            <div class="post" v-for="post in posts" :key="post.id">
+              <strong>{{ post.title }}</strong>
+              <p>{{ post.body }}</p>
+            </div>
+          </template>
+
+          <n-empty v-else description="У этого пользователя пока нет постов" class="posts-empty">
+          </n-empty>
         </div>
       </div>
     </div>
@@ -213,6 +218,12 @@ onUnmounted(() => {
       background: #f9f9f9;
     }
   }
+}
+.posts-empty {
+  padding: 40px 0;
+  background: #fafafa;
+  border-radius: 8px;
+  border: 1px dashed #dcdcdc;
 }
 
 .avatar {
