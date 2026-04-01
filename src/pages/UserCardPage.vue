@@ -5,11 +5,14 @@ import { usersApi } from '../api'
 import { useFavoritesStore } from '../stores/favorites'
 import { NSpin } from 'naive-ui'
 import ConfirmModal from '../components/ConfirmModal.vue'
+import { useUserStore } from '../stores/user'
+import { onUnmounted } from 'vue'
 
 const route = useRoute()
 const router = useRouter()
 const favoritesStore = useFavoritesStore()
 const showFavsModal = ref(false)
+const userStore = useUserStore()
 
 const user = ref<any>(null)
 const posts = ref<any[]>([])
@@ -33,6 +36,7 @@ const fetchUser = async () => {
   try {
     const { data } = await usersApi.getById(Number(route.params.id))
     user.value = data
+    userStore.setCurrentUser(`${data.firstName} ${data.lastName}`)
     const postsData = await usersApi.getPosts(Number(route.params.id))
     posts.value = postsData.data.posts
   } catch (error) {
@@ -42,7 +46,17 @@ const fetchUser = async () => {
   }
 }
 
+function getAgeColor(birthday: string) {
+  const age = new Date().getFullYear() - new Date(birthday).getFullYear()
+  if (age < 30) return '#18a058'
+  if (age <= 50) return '#f0a020'
+  return '#d03050'
+}
+
 onMounted(fetchUser)
+onUnmounted(() => {
+  userStore.clearCurrentUser()
+})
 </script>
 <template>
   <n-spin :show="isLoading">
@@ -85,7 +99,21 @@ onMounted(fetchUser)
             </tr>
             <tr>
               <td>Возраст</td>
-              <td>{{ user.age }}</td>
+              <td>
+                <n-tag
+                  :bordered="false"
+                  round
+                  size="medium"
+                  :style="{
+                    backgroundColor: getAgeColor(user.birthDate) + '20',
+                    color: getAgeColor(user.birthDate),
+                    fontWeight: 'bold',
+                    borderRadius: '4px',
+                  }"
+                >
+                  {{ user.age }} лет
+                </n-tag>
+              </td>
             </tr>
             <tr>
               <td>Дата рождения</td>

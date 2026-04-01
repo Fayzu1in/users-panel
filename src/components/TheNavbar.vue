@@ -3,6 +3,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useAuthStore } from '../stores/auth'
 import { RouterLink } from 'vue-router'
 import ConfirmModal from './ConfirmModal.vue'
+import { PeopleOutline } from '@vicons/ionicons5'
 
 const showLogoutModal = ref(false)
 const showLogout = ref(false)
@@ -35,7 +36,12 @@ function handleLogout() {
       <div class="navbar__left">
         <span class="navbar__logo">Sarkor</span>
         <div class="navbar__nav">
-          <RouterLink to="/users">Пользователи</RouterLink>
+          <RouterLink to="/users">
+            <n-icon size="20">
+              <PeopleOutline />
+            </n-icon>
+            <span style="padding-left: 7px">Пользователи</span></RouterLink
+          >
         </div>
       </div>
       <div class="navbar__right">

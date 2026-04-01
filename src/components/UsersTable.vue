@@ -71,13 +71,26 @@ const columns: DataTableColumns<User> = [
     title: 'Дата рождения',
     key: 'birthday',
     sorter: 'default',
-    render(row) {
+    render(row: any) {
+      const mainColor = getAgeColor(row.birthday)
+
       return h(
-        'span',
+        NTag,
         {
-          style: `color: ${getAgeColor(row.birthday)}; font-weight: 500;`,
+          color: {
+            color: `${mainColor}20`,
+            textColor: mainColor,
+            borderColor: 'transparent',
+          },
+          bordered: false,
+          round: false,
+          size: 'small',
+          style: {
+            fontWeight: '600',
+            borderRadius: '4px',
+          },
         },
-        row.birthday,
+        { default: () => row.birthday },
       )
     },
   },
