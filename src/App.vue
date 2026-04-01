@@ -62,6 +62,9 @@ const themeOverrides: GlobalThemeOverrides = {
 @media (max-width: 768px) {
   .main-content {
     margin-left: 0px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-bottom: 25px;
   }
 }
 </style>
