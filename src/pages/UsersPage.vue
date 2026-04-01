@@ -3,16 +3,17 @@ import { ref, onMounted, computed } from 'vue'
 import { usersApi } from '../api'
 import UsersTable from '../components/UsersTable.vue'
 import { SearchOutline } from '@vicons/ionicons5'
-import { NInput, NIcon, NPagination } from 'naive-ui'
+import { NInput, NIcon, NPagination, useMessage } from 'naive-ui'
 import { watch } from 'vue'
 
 const users = ref([])
 const isLoading = ref(false)
 const searchQuery = ref('')
+const message = useMessage()
 const page = ref(1)
 const limit = ref(10)
 
-const fetchUsers = async () => {
+const fetchUsers = async (isManual = false) => {
   isLoading.value = true
   try {
     const { data } = await usersApi.getAll(100, 0)
@@ -22,6 +23,9 @@ const fetchUsers = async () => {
       phone: user.phone,
       birthday: user.birthDate,
     }))
+    if (isManual) {
+      message.success('Данные обновлены')
+    }
   } catch (error) {
     console.error(error)
   } finally {
@@ -59,7 +63,7 @@ watch(searchQuery, () => {
   page.value = 1
 })
 
-onMounted(fetchUsers)
+onMounted(() => fetchUsers(false))
 </script>
 <template>
   <div class="users-page">
@@ -69,7 +73,7 @@ onMounted(fetchUsers)
 
     <div class="page-content">
       <div class="toolbar">
-        <button class="reload-btn" @click="fetchUsers" :disabled="isLoading">
+        <button class="reload-btn" @click="fetchUsers(true)" :disabled="isLoading">
           🔄 Перезагрузить
         </button>
 

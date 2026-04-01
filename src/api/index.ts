@@ -1,4 +1,8 @@
 import axios from 'axios'
+import { createDiscreteApi } from 'naive-ui'
+const { message } = createDiscreteApi(['message'], {
+  messageProviderProps: { placement: 'top-right' },
+})
 
 const api = axios.create({
   baseURL: 'https://dummyjson.com',
@@ -12,8 +16,28 @@ api.interceptors.request.use((config) => {
   }
   return config
 })
+api.interceptors.response.use(
+  (response) => {
+    return response
+  },
+  (error) => {
+    const status = error.response?.status
+    let errorMsg = error.response.data.message
+    console.log('status:', errorMsg)
+
+    if (status === 401) {
+      errorMsg
+    } else if (status === 404) {
+      errorMsg
+    }
+    message.error(errorMsg)
+
+    return Promise.reject(error)
+  },
+)
 
 export default api
+export { message }
 
 export const authApi = {
   login: (username: string, password: string) => api.post('/auth/login', { username, password }),

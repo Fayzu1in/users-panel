@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { authApi } from '../api'
+import api, { authApi, message } from '../api'
 import router from '../router'
 
 export const useAuthStore = defineStore('auth', () => {
@@ -10,12 +10,17 @@ export const useAuthStore = defineStore('auth', () => {
   const isAuthenticated = computed(() => !!token.value)
 
   async function login(username: string, password: string) {
-    const response = await authApi.login(username, password)
-    token.value = response.data.accessToken
-    user.value = response.data
-    localStorage.setItem('token', response.data.accessToken)
-    localStorage.setItem('user', JSON.stringify(response.data))
-    router.push('/users')
+    try {
+      const response = await authApi.login(username, password)
+      token.value = response.data.accessToken
+      user.value = response.data
+      localStorage.setItem('token', response.data.accessToken)
+      localStorage.setItem('user', JSON.stringify(response.data))
+      message.success(`Вы успешно вошли!`)
+      router.push('/users')
+    } catch (error) {
+      throw error
+    }
   }
 
   function logout() {
@@ -23,6 +28,7 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = null
     localStorage.removeItem('token')
     localStorage.removeItem('user')
+    message.info('Вы вышли из аккаунта')
     router.push('/login')
   }
 

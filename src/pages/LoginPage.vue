@@ -3,9 +3,6 @@ import { ref } from 'vue'
 import { useAuthStore } from '../stores/auth'
 import ActionButton from '../components/ActionButton.vue'
 
-// import { ref } from 'vue'
-// import { useAuthStore } from '../stores/auth'
-
 const auth = useAuthStore()
 const username = ref('')
 const password = ref('')
@@ -13,9 +10,14 @@ const remember = ref(false)
 const isLoading = ref(false)
 
 async function handleLogin() {
-  isLoading.value = true
-  await auth.login(username.value, password.value)
-  isLoading.value = false
+  try {
+    isLoading.value = true
+    await auth.login(username.value, password.value)
+  } catch (error) {
+    console.error('Ошибка при входе в компоненте:', error)
+  } finally {
+    isLoading.value = false
+  }
 }
 </script>
 
