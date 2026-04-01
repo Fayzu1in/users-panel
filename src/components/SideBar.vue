@@ -122,4 +122,9 @@ const userId = computed(() => route.params.id)
     }
   }
 }
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+}
 </style>

@@ -69,10 +69,24 @@ const limitOptions = [
   border-bottom: 1px solid #e0e0e0;
 
   &__title {
-    font-size: 36px;
+    font-size: 2.25rem;
     font-weight: 500;
     color: #333;
     margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    line-height: 1.2;
+    max-height: 2.4em;
+    padding-bottom: 10px;
+
+    @media (max-width: 768px) {
+      font-size: 1.375rem;
+      padding-bottom: 0;
+    }
   }
 }
 .toolbar {
@@ -80,6 +94,20 @@ const limitOptions = [
   align-items: center;
   gap: 20px;
   margin-bottom: 10px;
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+
+    .search-input,
+    .reload-btn,
+    .pagination-size {
+      width: 100%;
+    }
+
+    .pagination-size {
+      justify-content: flex-start;
+    }
+  }
 }
 
 .search-input {

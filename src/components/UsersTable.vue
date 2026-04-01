@@ -126,6 +126,7 @@ defineProps<{
       :loading="loading"
       :bordered="false"
       :single-line="false"
+      :scroll-x="800"
     />
   </div>
   <ConfirmModal
@@ -141,6 +142,8 @@ defineProps<{
 .users-table-wrapper {
   background: white;
   border-radius: 4px;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 :deep(.n-data-table-th) {
