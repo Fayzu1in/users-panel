@@ -1,69 +1,27 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
-import { usersApi } from '../api'
+import { useUsers } from '../composables/useUsers'
 import UsersTable from '../components/UsersTable.vue'
 import { SearchOutline } from '@vicons/ionicons5'
-import { NInput, NIcon, NPagination, useMessage } from 'naive-ui'
-import { watch } from 'vue'
+import { NInput, NIcon, NPagination } from 'naive-ui'
 
-const users = ref([])
-const isLoading = ref(false)
-const searchQuery = ref('')
-const message = useMessage()
-const page = ref(1)
-const limit = ref(10)
+const {
+  isLoading,
+  searchQuery,
+  page,
+  limit,
+  currentPageData,
+  filteredUsers,
+  totalPages,
+  showingText,
+  fetchUsers,
+} = useUsers()
 
-const fetchUsers = async (isManual = false) => {
-  isLoading.value = true
-  try {
-    const { data } = await usersApi.getAll(100, 0)
-    users.value = data.users.map((user: any) => ({
-      id: user.id,
-      name: `${user.firstName} ${user.lastName}`,
-      phone: user.phone,
-      birthday: user.birthDate,
-    }))
-    if (isManual) {
-      message.success('Данные обновлены')
-    }
-  } catch (error) {
-    console.error(error)
-  } finally {
-    isLoading.value = false
-  }
-}
-const currentPageData = computed(() => {
-  const start = (page.value - 1) * limit.value
-  const end = start + limit.value
-  return filteredUsers.value.slice(start, end)
-})
-
-const filteredUsers = computed(() => {
-  const query = searchQuery.value.toLowerCase().trim()
-  if (!query) return users.value
-
-  const cleanQuery = query.replace(/\D/g, '')
-
-  return users.value.filter((user: any) => {
-    const nameMatch = user.name.toLowerCase().includes(query)
-    const cleanPhone = user.phone.replace(/\D/g, '')
-    const phoneMatch = cleanQuery !== '' && cleanPhone.includes(cleanQuery)
-
-    return nameMatch || phoneMatch
-  })
-})
-
-const showingText = computed(() => {
-  const from = (page.value - 1) * limit.value + 1
-  const to = Math.min(page.value * limit.value, filteredUsers.value.length)
-  const total = filteredUsers.value.length
-  return `Показано с ${from} по ${to} из ${total} записей`
-})
-watch(searchQuery, () => {
-  page.value = 1
-})
-
-onMounted(() => fetchUsers(false))
+const limitOptions = [
+  { label: '10', value: 10 },
+  { label: '20', value: 20 },
+  { label: '50', value: 50 },
+  { label: '100', value: 100 },
+]
 </script>
 <template>
   <div class="users-page">
@@ -89,16 +47,7 @@ onMounted(() => fetchUsers(false))
         </n-input>
         <div class="pagination-size">
           <span>Показывать по</span>
-          <n-select
-            v-model:value="limit"
-            :options="[
-              { label: '10', value: 10 },
-              { label: '20', value: 20 },
-              { label: '50', value: 50 },
-              { label: '100', value: 100 },
-            ]"
-            style="width: 80px"
-          />
+          <n-select v-model:value="limit" :options="limitOptions" style="width: 80px" />
           <span>записей</span>
         </div>
       </div>
@@ -108,11 +57,7 @@ onMounted(() => fetchUsers(false))
       </div>
 
       <UsersTable :data="currentPageData" :loading="isLoading" />
-      <n-pagination
-        class="pagination"
-        v-model:page="page"
-        :page-count="Math.ceil(filteredUsers.length / limit)"
-      />
+      <n-pagination class="pagination" v-model:page="page" :page-count="totalPages" />
     </div>
   </div>
 </template>
