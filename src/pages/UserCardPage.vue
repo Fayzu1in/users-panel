@@ -4,14 +4,29 @@ import { useRoute, useRouter } from 'vue-router'
 import { usersApi } from '../api'
 import { useFavoritesStore } from '../stores/favorites'
 import { NSpin } from 'naive-ui'
+import ConfirmModal from '../components/ConfirmModal.vue'
 
 const route = useRoute()
 const router = useRouter()
 const favoritesStore = useFavoritesStore()
+const showFavsModal = ref(false)
 
 const user = ref<any>(null)
 const posts = ref<any[]>([])
 const isLoading = ref(false)
+
+const handleFavClick = (userId: number) => {
+  if (favoritesStore.isFavorite(userId)) {
+    showFavsModal.value = true
+  } else {
+    favoritesStore.toggle(userId)
+  }
+}
+
+const confirmRemoveFromFavs = () => {
+  favoritesStore.toggle(user.value.id)
+  showFavsModal.value = false
+}
 
 const fetchUser = async () => {
   isLoading.value = true
@@ -38,7 +53,7 @@ onMounted(fetchUser)
 
       <div class="page-content">
         <div class="toolbar">
-          <button class="reload-btn fav-btn" @click="favoritesStore.toggle(user.id)">
+          <button class="reload-btn fav-btn" @click="handleFavClick(user.id)">
             {{ favoritesStore.isFavorite(user?.id) ? 'В избранном' : 'В избранное' }}
           </button>
           <button class="reload-btn back-btn" @click="router.back()">Назад</button>
@@ -105,6 +120,13 @@ onMounted(fetchUser)
       </div>
     </div>
   </n-spin>
+  <ConfirmModal
+    :show="showFavsModal"
+    title="Удаление из избранного"
+    :message="`Вы уверены, что хотите убрать пользователя ${user?.email} из списка избранного?`"
+    @confirm="confirmRemoveFromFavs"
+    @cancel="showFavsModal = false"
+  />
 </template>
 <style lang="scss" scoped>
 .page-header {

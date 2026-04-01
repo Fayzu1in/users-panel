@@ -29,15 +29,6 @@ const isUsersSection = computed(() => route.path.startsWith('/users'))
           <RouterLink to="/users/favorites" class="sidebar__link"> Избранное </RouterLink>
         </div>
       </div>
-
-      <div class="sidebar__group">
-        <div class="sidebar__header">
-          <n-icon size="20"><HardwareChipOutline /></n-icon> <span>Devices</span>
-        </div>
-        <div class="sidebar__links">
-          <RouterLink to="/devices" class="sidebar__link">List</RouterLink>
-        </div>
-      </div>
     </nav>
   </aside>
 </template>

@@ -2,6 +2,9 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useAuthStore } from '../stores/auth'
 import { RouterLink } from 'vue-router'
+import ConfirmModal from './ConfirmModal.vue'
+
+const showLogoutModal = ref(false)
 const showLogout = ref(false)
 
 const auth = useAuthStore()
@@ -19,6 +22,11 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('click', closeDropdown)
 })
+
+function handleLogout() {
+  auth.logout()
+  showLogoutModal.value = false
+}
 </script>
 
 <template>
@@ -39,13 +47,20 @@ onUnmounted(() => {
 
           <transition name="fade">
             <div v-if="showLogout" class="navbar__dropdown">
-              <button @click="auth.logout()" class="logout-btn">Выйти</button>
+              <button @click="showLogoutModal = true" class="logout-btn">Выйти</button>
             </div>
           </transition>
         </div>
       </div>
     </div>
   </nav>
+  <ConfirmModal
+    :show="showLogoutModal"
+    title="Выход из аккаунта"
+    message="Вы уверены что хотите выйти?"
+    @confirm="handleLogout"
+    @cancel="showLogoutModal = false"
+  />
 </template>
 
 <style scoped lang="scss">

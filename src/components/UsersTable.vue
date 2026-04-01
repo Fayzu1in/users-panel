@@ -1,17 +1,36 @@
 <script setup lang="ts">
-import { h } from 'vue'
+import { h, ref } from 'vue'
 import { NDataTable, NTag } from 'naive-ui'
 import type { DataTableColumns } from 'naive-ui'
 import { RouterLink } from 'vue-router'
 import { useFavoritesStore } from '../stores/favorites'
+import ConfirmModal from '../components/ConfirmModal.vue'
 
 const favoritesStore = useFavoritesStore()
+const showFavsModal = ref(false)
+const selectedUser = ref<User | null>(null)
 
 function getAgeColor(birthday: string) {
   const age = new Date().getFullYear() - new Date(birthday).getFullYear()
   if (age < 30) return '#18a058'
   if (age <= 50) return '#f0a020'
   return '#d03050'
+}
+
+const handleFavClick = (user: User) => {
+  if (favoritesStore.isFavorite(user.id)) {
+    selectedUser.value = user
+    showFavsModal.value = true
+  } else {
+    favoritesStore.toggle(user.id)
+  }
+}
+const confirmRemoveFromFavs = () => {
+  if (selectedUser.value) {
+    favoritesStore.toggle(selectedUser.value.id)
+    showFavsModal.value = false
+    selectedUser.value = null
+  }
 }
 
 interface User {
@@ -72,7 +91,7 @@ const columns: DataTableColumns<User> = [
         'span',
         {
           style: `cursor: pointer; font-size: 20px; color: ${isFav ? '#f0a020' : '#ccc'}`,
-          onClick: () => favoritesStore.toggle(row.id),
+          onClick: () => handleFavClick(row),
         },
         '★',
       )
@@ -96,6 +115,13 @@ defineProps<{
       :single-line="false"
     />
   </div>
+  <ConfirmModal
+    :show="showFavsModal"
+    title="Удаление из избранного"
+    :message="`Вы уверены, что хотите убрать пользователя ${selectedUser?.name} из списка избранного?`"
+    @confirm="confirmRemoveFromFavs"
+    @cancel="showFavsModal = false"
+  />
 </template>
 
 <style scoped>
