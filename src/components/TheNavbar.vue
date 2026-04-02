@@ -85,7 +85,7 @@ onUnmounted(() => {
               <n-icon size="20"><PeopleOutline /></n-icon>
               <span>Список пользователей</span>
             </RouterLink>
-            <RouterLink to="/users/favorites" class="mobile-link" @click="isMobileMenuOpen = false">
+            <RouterLink to="/favorites" class="mobile-link" @click="isMobileMenuOpen = false">
               <n-icon size="20"><HeartOutline /></n-icon>
               <span>Избранное</span>
             </RouterLink>

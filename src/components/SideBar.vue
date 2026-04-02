@@ -23,7 +23,7 @@ const userId = computed(() => route.params.id)
           <RouterLink to="/users" exact-active-class="active" class="sidebar__link">
             Список
           </RouterLink>
-          <RouterLink to="/users/favorites" class="sidebar__link"> Избранное </RouterLink>
+          <RouterLink to="/favorites" class="sidebar__link"> Избранное </RouterLink>
         </div>
       </div>
 
