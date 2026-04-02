@@ -1,48 +1,62 @@
-# sarkor-project
+User Management Panel (SPA)
+Тестовое задание на позицию Frontend Developer. Проект представляет собой SPA для управления списком пользователей с функционалом авторизации, фильтрации и управления избранным.
 
-This template should help get you started developing with Vue 3 in Vite.
+🚀 Стек технологий
 
-## Recommended IDE Setup
+Framework: Vue 3 (Composition API, <script setup>)
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+Language: TypeScript
 
-## Recommended Browser Setup
+State Management: Pinia
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+Routing: Vue Router
 
-## Type Support for `.vue` Imports in TS
+UI Library: Naive UI
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+HTTP Client: Axios
 
-## Customize configuration
+Build Tool: Vite
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+🛠 Реализованный функционал
+Авторизация: Вход по логину и паролю через DummyJSON API. Сессия сохраняется после перезагрузки страницы.
 
-## Project Setup
+Список пользователей (/users):
 
-```sh
+Клиентский поиск по имени и телефону.
+
+Сортировка по всем колонкам.
+
+Серверная пагинация.
+
+Цветовая индикация возраста (Зеленый < 30, Желтый 30-50, Красный > 50).
+
+Карточка пользователя: Детальная информация, включая данные о компании и список постов пользователя.
+
+Избранное: Индивидуальный список для каждого авторизованного пользователя, сохраняющийся в localStorage.
+
+Адаптивность: Интерфейс полностью оптимизирован для мобильных устройств (используется Drawer для навигации и адаптивные тулбары).
+
+Архитектура: Логика вынесена в переиспользуемые Composables.
+
+Обработка ошибок: Глобальные уведомления (Toasts) при ошибках API или действиях пользователя.
+
+🔑 Данные для входа
+Логин: emily
+
+Пароль: emilypass
+
+📦 Установка и запуск
+Клонируйте репозиторий:
+
+git clone [https://github.com/Fayzu1in/users-panel]
+
+Установите зависимости:
+
 npm install
-```
 
-### Compile and Hot-Reload for Development
+Запустите проект в режиме разработки:
 
-```sh
 npm run dev
-```
 
-### Type-Check, Compile and Minify for Production
-
-```sh
+Сборка для продакшена:
 npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
