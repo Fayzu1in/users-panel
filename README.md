@@ -48,7 +48,7 @@ Build Tool: Vite
 📦 Установка и запуск
 Клонируйте репозиторий:
 
-git clone [https://github.com/Fayzu1in/users-panel]
+git clone [https://github.com/Fayzu1in/users-panel.git]
 
 Установите зависимости:
 
